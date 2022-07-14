@@ -1,0 +1,9 @@
+---
+- name: Rebuild and restart the mosquitto service
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/docker-obs/"
+    restarted: yes
+    build: yes
+    services:
+      - mosquitto
+

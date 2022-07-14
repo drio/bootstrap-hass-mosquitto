@@ -12,21 +12,21 @@
     delete: false
     recursive: true
     perms: false
-  become: false
+  become: true
 
 - name: Copy templated dc files into place.
   ansible.builtin.template:
     src: templates/{{ item.src }}
-    dest: "{{ config_dir }}/docker-obs/{{ item.dest }}"
+    dest: "{{ config_dir }}/dc/{{ item.dest }}"
     mode: 0644
   loop:
     - src: docker-compose.yml.j2
       dest: docker-compose.yml
-  notify: Restart docker-obs
+  notify: restart dc
   become: false
 
 - name: Start the different services in docker-obs (rebuild if necessary)
   community.docker.docker_compose:
-    project_src: "{{ config_dir }}/docker-obs/"
+    project_src: "{{ config_dir }}/dc/"
     build: true
   become: false

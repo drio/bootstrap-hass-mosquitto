@@ -1,0 +1,45 @@
+---
+- hosts: gopher
+  become: true
+
+  pre_tasks:
+    - name: Load configuration (with defaults from example file).
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - config.yml
+      tags:
+        - always
+
+    - name: Ensure apt cache is up to date.
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when:
+        - ansible_facts.os_family == "Debian"
+
+  handlers:
+    - name: Include handlers.
+      ansible.builtin.import_tasks: tasks/handlers.yml
+
+  tasks:
+    - name: Setup Docker.
+      ansible.builtin.import_tasks: tasks/docker.yml
+
+    - name: Prepare docker compose (dc)
+      ansible.builtin.import_tasks: tasks/docker-dc.yml
+      tags: [ "sync-docker-obs" ]
+
+    - name: Few setup tasks for the machine
+      ansible.builtin.import_tasks: tasks/machine.yml
+
+    - name: Docker stop
+      ansible.builtin.import_tasks: tasks/docker-stop.yml
+      tags: [ "dockerstop", "never" ]
+
+    - name: Prune all docker images
+      ansible.builtin.import_tasks: tasks/docker-prune.yml
+      tags: [ "dockerprune", "never" ]
+
+    - name: Full update of the OS
+      ansible.builtin.import_tasks: tasks/full-update.yml
+      tags: [ "fullupdate", "never" ]

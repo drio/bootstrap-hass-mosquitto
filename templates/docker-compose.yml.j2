@@ -1,0 +1,28 @@
+---
+version: '3'
+services:
+  homeassistant:
+    container_name: hass
+    image: homeassistant/home-assistant
+    # (host -> container)
+    volumes:
+      - ./hass-config:/config
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - mosquitto
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    # (host -> container)
+    volumes:
+      - "./mosquitto/config:/mosquitto/config"
+      - "./mosquitto/data:/mosquitto/data"
+      - "./mosquitto/log:/mosquitto/log"
+    environment:
+      - TZ=America/New_York
+    #user: "${PUID}:${PGID}"

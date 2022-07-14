@@ -1,0 +1,14 @@
+---
+- name: Restart dc
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/dc/"
+    build: false
+    restarted: true
+  become: false
+
+- name: Stop dc services
+  community.docker.docker_compose:
+    project_src: "{{ config_dir }}/dc/"
+    build: false
+    restarted: true
+  become: false

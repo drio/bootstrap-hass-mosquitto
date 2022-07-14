@@ -1,0 +1,4 @@
+---
+# Location where configuration files will be stored.
+config_dir: '~'
+

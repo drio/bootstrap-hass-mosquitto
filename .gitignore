@@ -1,2 +1,4 @@
 dc/mosquitto/mosquitto.passwd
 dc/mosquitto/config/mosquitto.passwd
+dc/hass-config/*
+dc/hass-config/.*

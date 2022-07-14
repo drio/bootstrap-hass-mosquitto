@@ -6,7 +6,7 @@ services:
     image: homeassistant/home-assistant
     # (host -> container)
     volumes:
-      - ./hass-config:/config
+      - ./hass-config:/config:rw
     restart: unless-stopped
     network_mode: host
     depends_on:

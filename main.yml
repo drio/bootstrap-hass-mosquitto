@@ -27,7 +27,7 @@
 
     - name: Prepare docker compose (dc)
       ansible.builtin.import_tasks: tasks/docker-dc.yml
-      tags: [ "sync-docker-obs" ]
+      tags: [ "sync-dc" ]
 
     - name: Few setup tasks for the machine
       ansible.builtin.import_tasks: tasks/machine.yml
@@ -43,3 +43,10 @@
     - name: Full update of the OS
       ansible.builtin.import_tasks: tasks/full-update.yml
       tags: [ "fullupdate", "never" ]
+
+    - name: Update the mosquitto service
+      ansible.builtin.import_tasks: tasks/mosquitto.yml
+      tags: [ "updatemosquitto", "never" ]
+      become: false
+
+

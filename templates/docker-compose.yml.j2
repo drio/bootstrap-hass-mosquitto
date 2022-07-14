@@ -13,16 +13,18 @@ services:
       - mosquitto
 
   mosquitto:
+    #build:
+    #  context: ./mosquitto
     image: eclipse-mosquitto
     container_name: mosquitto
     restart: unless-stopped
-    ports:
-      - "1883:1883"
+    network_mode: host
+    #ports:
+    #  - "1883:1883"
     # (host -> container)
     volumes:
-      - "./mosquitto/config:/mosquitto/config"
-      - "./mosquitto/data:/mosquitto/data"
-      - "./mosquitto/log:/mosquitto/log"
+      - ./mosquitto/config:/mosquitto/config:rw
+      - ./mosquitto/data:/mosquitto/data:rw
+      - ./mosquitto/log:/mosquitto/log:rw
     environment:
       - TZ=America/New_York
-    #user: "${PUID}:${PGID}"

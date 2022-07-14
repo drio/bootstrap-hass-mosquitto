@@ -7,10 +7,13 @@ MQTT_PASS?=
 play:
 	ansible-playbook ${INVENTORY} main.yml
 
+bootstrap:
+	ansible-playbook ${INVENTORY} boostrap.yml
+
 requirements:
 	ansible-galaxy collection install -r requirements.yml
 
-full-rebuild: tag/dockerstop tag/dockerprune play
+full-rebuild: tag/dockerstop tag/dockerprune bootstrap
 
 tag/%:
 	ansible-playbook ${INVENTORY} main.yml --tags "$*"

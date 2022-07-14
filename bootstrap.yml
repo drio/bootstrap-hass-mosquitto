@@ -30,26 +30,3 @@
 
     - name: Prepare docker compose (dc) in host machine
       ansible.builtin.import_tasks: tasks/docker-dc.yml
-      tags: [ "sync-dc", "never" ]
-
-    - name: Docker stop
-      ansible.builtin.import_tasks: tasks/docker-stop.yml
-      tags: [ "dockerstop", "never" ]
-
-    - name: Prune all docker images
-      ansible.builtin.import_tasks: tasks/docker-prune.yml
-      tags: [ "dockerprune", "never" ]
-
-    - name: Full update of the OS
-      ansible.builtin.import_tasks: tasks/full-update.yml
-      tags: [ "fullupdate", "never" ]
-
-    - name: Update the mosquitto service
-      ansible.builtin.import_tasks: tasks/mosquitto.yml
-      tags: [ "updatemosquitto", "never" ]
-      become: false
-
-    - name: Set eth0 static ip address
-      ansible.builtin.import_tasks: tasks/static-ip.yml
-      tags: [ "static-ip", "never" ]
-      become: false

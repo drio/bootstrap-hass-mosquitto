@@ -1,4 +1,4 @@
-## Ansible playbook for mosquitto and home assistant (hass)
+## Ansible playbook to boostrap mosquitto and home assistant
 
 This is an ansible playbook that installs mosquitto (MQTT broker) and
 hass.
@@ -13,13 +13,34 @@ something happened to my server.
 
 The harddrive on my server started to fail. So I decide to build this playbook.
 
+## How to use it
+
+We have to docker-compose services: hass and mosquitto. 
+
+1. Drop your configs in the `dc/{mosquitto,hass-config}` directories. 
+The hass-config is the set of files you get when you run a backup in hass. Or
+when you copy the config dir in a hass instance.
+
+Feel free to use the `./scripts/restore-hass.sh` script to extract a hass 
+backup file into `./dc/hass-config`.
+
+2. Run the boostrap.yml playbook:
+
+`$ make boostrap`
+
+This will install docker and docker-compose, sync up the local docker-compose
+directory and start the services.
+
+At this point mosquitto and hass should be running with your configs.
+
 ## Notes
 
 As you can see from the docker-compose file, we are mounting a few
 volumes for each of the services. The purpose of that is to be able
-to control the service configuration. 
+to control the service configuration from outside the containers.
 
-In my mosquitto config, I also setup a login/passwd for authentication.
+In my mosquitto config, I also setup a couple of login/passwd for
+authentication.
 
 For hass, I already had a working instance so I created a backup (you can do so
 via the hass UI) and restore it in the docker-compose service directory. Then

@@ -27,6 +27,7 @@ echo "Extracting tarball within tarball ..."
 tar zxf homeassistant.tar.gz
 
 echo "Moving data to dc/hass-config/"
+rm -f data/homeassistant.tar.gz
 mv data dc/hass-config
 
 echo "Cleaning up"
